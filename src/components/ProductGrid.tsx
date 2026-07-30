@@ -92,38 +92,38 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-[#f8f6f0]">
+    <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-16 sm:py-24 lg:py-32 text-[#f8f6f0]">
       
       {/* Category Tabs & Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/5">
-        <div>
-          <div className="flex items-center gap-2 text-[10px] serif uppercase tracking-[0.3em] text-[#C5A059]">
-            <Gem className="w-3.5 h-3.5 text-[#F1D592]" />
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-10 border-b border-white/10">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5 text-xs font-fashion uppercase tracking-[0.35em] text-[#C5A059]">
+            <Gem className="w-4 h-4 text-[#F1D592]" />
             <span>Curated Collection</span>
           </div>
-          <h2 className="text-3xl font-fashion text-white mt-1 font-light">
+          <h2 className="text-3xl sm:text-4xl font-fashion text-white mt-2 font-light tracking-wide">
             {categoryFilter === 'all'
               ? 'Fancy & Fashions Collection'
               : categoryFilter === 'jewelry'
               ? 'Fancy Collection'
               : 'Haute Fashions Collection'}
           </h2>
-          <p className="text-xs text-white/40 font-light mt-1">
+          <p className="text-xs sm:text-sm text-white/50 font-light pt-1">
             Showing {filteredProducts.length} of {products.length} luxury creations
           </p>
         </div>
 
         {/* Category Pills Switcher */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => {
               setCategoryFilter('all');
               setSelectedSubcategory('all');
             }}
-            className={`px-4 py-2 rounded-sm text-[10px] uppercase tracking-[0.2em] transition cursor-pointer ${
+            className={`px-6 py-3 rounded-sm text-xs uppercase tracking-[0.25em] transition cursor-pointer ${
               categoryFilter === 'all'
                 ? 'bg-gold-gradient text-black font-semibold'
-                : 'bg-[#121212] text-white/50 hover:text-white border border-white/5'
+                : 'bg-[#121212] text-white/60 hover:text-white border border-white/10'
             }`}
             id="filter-category-all"
           >
@@ -134,14 +134,14 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               setCategoryFilter('jewelry');
               setSelectedSubcategory('all');
             }}
-            className={`px-4 py-2 rounded-sm text-[10px] uppercase tracking-[0.2em] transition flex items-center gap-1.5 cursor-pointer ${
+            className={`px-6 py-3 rounded-sm text-xs uppercase tracking-[0.25em] transition flex items-center gap-2 cursor-pointer ${
               categoryFilter === 'jewelry'
                 ? 'bg-gold-gradient text-black font-semibold'
-                : 'bg-[#121212] text-white/50 hover:text-white border border-white/5'
+                : 'bg-[#121212] text-white/60 hover:text-white border border-white/10'
             }`}
             id="filter-category-jewelry"
           >
-            <Gem className="w-3.5 h-3.5" />
+            <Gem className="w-4 h-4" />
             Fancy
           </button>
           <button
@@ -149,27 +149,27 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               setCategoryFilter('fashions');
               setSelectedSubcategory('all');
             }}
-            className={`px-4 py-2 rounded-sm text-[10px] uppercase tracking-[0.2em] transition flex items-center gap-1.5 cursor-pointer ${
+            className={`px-6 py-3 rounded-sm text-xs uppercase tracking-[0.25em] transition flex items-center gap-2 cursor-pointer ${
               categoryFilter === 'fashions'
                 ? 'bg-gold-gradient text-black font-semibold'
-                : 'bg-[#121212] text-white/50 hover:text-white border border-white/5'
+                : 'bg-[#121212] text-white/60 hover:text-white border border-white/10'
             }`}
             id="filter-category-fashions"
           >
-            <Shirt className="w-3.5 h-3.5" />
+            <Shirt className="w-4 h-4" />
             Fashions
           </button>
         </div>
       </div>
 
       {/* Control Bar: Sort, Search Pill, Filter Drawer Toggle */}
-      <div className="py-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="py-8 flex flex-wrap items-center justify-between gap-6">
         
         {/* Left Filter Toggle & Active Count */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <button
             onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}
-            className="px-4 py-2 rounded bg-[#161616] border border-[#333333] hover:border-[#d4af37] text-xs text-[#f8f6f0] flex items-center gap-2 transition cursor-pointer"
+            className="px-5 py-2.5 rounded bg-[#161616] border border-[#333333] hover:border-[#d4af37] text-xs text-[#f8f6f0] flex items-center gap-2.5 transition cursor-pointer tracking-wider"
             id="filter-sidebar-toggle-btn"
           >
             <SlidersHorizontal className="w-4 h-4 text-[#d4af37]" />
@@ -179,10 +179,10 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           {(selectedSubcategory !== 'all' || selectedMaterial !== 'all' || searchQuery !== '') && (
             <button
               onClick={resetFilters}
-              className="text-xs text-[#d4af37] hover:underline flex items-center gap-1 cursor-pointer"
+              className="text-xs text-[#d4af37] hover:underline flex items-center gap-1.5 cursor-pointer tracking-wider"
               id="reset-filters-btn"
             >
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="w-3.5 h-3.5" />
               Reset Filters
             </button>
           )}
@@ -299,7 +299,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
 
       {/* Product Grid Render */}
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}

@@ -84,11 +84,11 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Main Header Container */}
-      <header className="sticky top-0 z-40 bg-[#0A0A0A]/95 backdrop-blur-md border-b border-white/5 text-[#E5E5E5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-[#0A0A0A]/95 backdrop-blur-md border-b border-white/10 text-[#E5E5E5]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 h-24 sm:h-28 flex items-center justify-between">
           
           {/* Left Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-8 text-[11px] uppercase tracking-[0.2em] font-medium text-white/60">
+          <nav className="hidden md:flex items-center space-x-10 text-xs uppercase tracking-[0.25em] font-medium text-white/70">
             <button
               onClick={() => {
                 setActiveTab('shop');

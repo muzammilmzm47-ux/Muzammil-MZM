@@ -133,10 +133,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Product Content Info */}
-        <div className="p-4 flex flex-col flex-grow justify-between space-y-3">
-          <div>
-            <div className="flex items-center justify-between text-[9px] text-white/40 serif uppercase tracking-[0.2em] mb-1">
-              <span>{product.category === 'jewelry' ? `Jewelry • ${product.subcategory}` : `Fashions • ${product.subcategory}`}</span>
+        <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between space-y-4">
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-[10px] text-white/50 font-fashion uppercase tracking-[0.2em] mb-1">
+              <span>{product.category === 'jewelry' ? `Fancy • ${product.subcategory}` : `Fashions • ${product.subcategory}`}</span>
               <div className="flex items-center gap-1 text-[#F1D592]">
                 <Star className="w-3 h-3 fill-current" />
                 <span>{product.rating}</span>
@@ -145,22 +145,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
             <h3 
               onClick={() => onOpenDetail(product)}
-              className="text-sm serif font-medium text-white hover:text-[#C5A059] transition cursor-pointer line-clamp-1"
+              className="text-base font-fashion font-medium text-white hover:text-[#C5A059] transition cursor-pointer line-clamp-1 tracking-wide"
             >
               {product.name}
             </h3>
 
-            <p className="text-xs text-white/50 line-clamp-1 font-light mt-0.5">
+            <p className="text-xs text-white/50 line-clamp-1 font-light pt-0.5">
               {product.tagline}
             </p>
           </div>
 
           {/* Materials Tags */}
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5 pt-1">
             {product.materials.slice(0, 2).map((m) => (
               <span
                 key={m}
-                className="text-[9px] px-1.5 py-0.5 rounded-xs bg-[#1A1A1A] text-white/50 border border-white/5 font-light"
+                className="text-[9px] px-2 py-0.5 rounded-xs bg-[#1A1A1A] text-white/60 border border-white/10 font-light"
               >
                 {m}
               </span>
@@ -168,12 +168,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           {/* Price & Action Buttons */}
-          <div className="pt-2 border-t border-white/5 space-y-2">
+          <div className="pt-3 border-t border-white/10 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-white">
+              <span className="text-base font-semibold text-white tracking-wide">
                 {formatPrice(product.price, currency)}
               </span>
-              <span className="text-[10px] text-emerald-400 font-sans">In Stock</span>
+              <span className="text-[10px] text-emerald-400 font-sans tracking-wider">In Stock</span>
             </div>
 
             <div className="grid grid-cols-2 gap-1.5 pt-1">

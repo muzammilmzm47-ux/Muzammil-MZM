@@ -138,23 +138,23 @@ export const DressingStudio: React.FC<DressingStudioProps> = ({
   const currentTotalUSD = (selectedApparel?.price || 0) + (selectedJewelry?.price || 0);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-[#f8f6f0]">
+    <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 py-16 sm:py-24 text-[#f8f6f0]">
       
       {/* Section Header */}
-      <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1c1910] border border-[#d4af37]/40 text-[#d4af37] text-xs font-serif uppercase tracking-widest">
+      <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1c1910] border border-[#d4af37]/40 text-[#d4af37] text-xs font-fashion uppercase tracking-[0.25em]">
           <Sparkles className="w-3.5 h-3.5 animate-pulse" />
           <span>Interactive Virtual Dressing Studio</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-serif text-[#f8f6f0] font-normal">
-          Style Couture Apparel & Fine Jewelry
+        <h1 className="text-3xl sm:text-5xl font-fashion text-[#f8f6f0] font-light tracking-wide">
+          Style Couture Apparel & Fancy Jewelry
         </h1>
-        <p className="text-xs text-white/50 font-light max-w-2xl mx-auto">
-          Mix-and-match TREDNY high jewelry with modern apparel silhouettes on studio models or your own photo. Receive real-time editorial advice from TREDNY AI Curator.
+        <p className="text-xs sm:text-sm text-white/60 font-light max-w-2xl mx-auto leading-relaxed">
+          Mix-and-match TREDNY fancy creations with modern apparel silhouettes on studio models or your own photo. Receive real-time editorial advice from TREDNY AI Curator.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
         
         {/* Left Column: Outfit & Jewelry Selector Tabs */}
         <div className="lg:col-span-4 space-y-6">
