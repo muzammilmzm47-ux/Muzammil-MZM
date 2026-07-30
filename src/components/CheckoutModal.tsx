@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, CreditCard, Check, Truck, Lock, ArrowRight, Download, PackageCheck, Award } from 'lucide-react';
+import { X, ShieldCheck, CreditCard, Check, Truck, Lock, ArrowRight, Download, PackageCheck, Award, MessageCircle, Phone } from 'lucide-react';
 import { CartItem, CurrencyConfig, ShippingAddress, Order } from '../types';
 import { formatPrice, generateOrderId, generateTrackingNumber } from '../utils/format';
+import { openWhatsAppChat, buildCartWhatsAppMessage } from '../utils/whatsapp';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -240,13 +241,22 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           {step === 2 && (
             <div className="space-y-6">
               
-              {/* Delivery Banner Note */}
-              <div className="p-3 bg-[#181812] border border-[#d4af37]/40 rounded-lg text-xs text-[#e6c65c] flex items-center justify-between">
+              {/* Delivery Banner Note with Clickable WhatsApp Chat */}
+              <div className="p-3 bg-[#181812] border border-[#d4af37]/40 rounded-lg text-xs text-[#e6c65c] flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <Truck className="w-4 h-4 text-[#d4af37] shrink-0" />
                   <span>Delivery Available across <strong>All Kerala & Karnataka</strong></span>
                 </div>
-                <span className="font-mono text-white text-[11px] bg-black/40 px-2 py-0.5 rounded border border-white/10">Phone: 7338447753</span>
+                <button
+                  type="button"
+                  onClick={() => openWhatsAppChat('7338447753', `Hi TREDNY! I am filling my order details (${cartItems.length} items) and have a quick question.`)}
+                  className="inline-flex items-center gap-1.5 font-mono text-emerald-400 text-[11px] bg-emerald-950/80 hover:bg-emerald-900 px-2.5 py-1 rounded border border-emerald-500/40 transition cursor-pointer"
+                  title="Direct WhatsApp Chat"
+                  id="checkout-delivery-whatsapp-btn"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                  <span>WhatsApp: 7338447753</span>
+                </button>
               </div>
 
               {/* Payment Option Tabs */}
@@ -384,7 +394,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => setStep(1)}
                   className="px-4 py-3 rounded border border-[#333] hover:border-white text-xs text-[#a3a3a3] transition cursor-pointer"
@@ -394,9 +404,22 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </button>
 
                 <button
+                  type="button"
+                  onClick={() => {
+                    const msg = buildCartWhatsAppMessage(cartItems, formatPrice(grandTotalUSD, currency), address.fullName, `${address.addressLine1}, ${address.city}, ${address.state}`);
+                    openWhatsAppChat('7338447753', msg);
+                  }}
+                  className="py-3 px-4 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer shadow-lg border border-emerald-400/40"
+                  id="checkout-whatsapp-direct-order-btn"
+                >
+                  <MessageCircle className="w-4 h-4 fill-current text-white" />
+                  <span>Direct Order via WhatsApp</span>
+                </button>
+
+                <button
                   onClick={handlePlaceOrder}
                   disabled={isProcessing}
-                  className="flex-1 py-3 rounded bg-[#d4af37] hover:bg-[#c29f2e] text-black font-semibold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 cursor-pointer shadow-lg disabled:opacity-50"
+                  className="flex-1 py-3 px-4 rounded bg-[#d4af37] hover:bg-[#c29f2e] text-black font-semibold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 cursor-pointer shadow-lg disabled:opacity-50"
                   id="checkout-place-order-btn"
                 >
                   {isProcessing ? (
@@ -479,8 +502,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
               </div>
 
-              {/* Download & Close Button */}
+              {/* Download, WhatsApp & Close Button */}
               <div className="pt-4 flex flex-wrap gap-3 justify-center">
+                <button
+                  onClick={() => openWhatsAppChat('7338447753', `Hi TREDNY! Here is my confirmed order reference ${completedOrder.id}. Tracking code: ${completedOrder.trackingNumber}. Total: ${formatPrice(completedOrder.total, currency)}.`)}
+                  className="px-5 py-2.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold border border-emerald-400/30 transition flex items-center gap-2 cursor-pointer shadow-lg"
+                  id="checkout-confirm-whatsapp-btn"
+                >
+                  <MessageCircle className="w-4 h-4 fill-current text-white" />
+                  <span>Send Order Ref to WhatsApp (7338447753)</span>
+                </button>
+
                 <button
                   onClick={() => alert(`Receipt PDF for ${completedOrder.id} downloaded.`)}
                   className="px-5 py-2.5 rounded bg-[#222222] hover:bg-[#333333] text-xs text-[#f8f6f0] border border-[#333] transition flex items-center gap-2 cursor-pointer"

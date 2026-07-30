@@ -1,6 +1,6 @@
 {
   "name": "TREDNY",
-  "description": "Luxury e-commerce and virtual dressing platform for high-quality jewelry and modern apparel with AI styling suite and secure checkout.",
+  "description": "TREDNY Brand - E-commerce and virtual dressing platform for fine jewelry, fashion, and accessories with AI styling suite and secure checkout.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

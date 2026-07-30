@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Sparkles, Send, Check } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 
 interface FooterProps {
   onOpenDressingStudio: () => void;
@@ -36,15 +37,15 @@ export const Footer: React.FC<FooterProps> = ({
           
           {/* Brand Manifesto Column */}
           <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-2xl serif tracking-[0.4em] font-light text-white uppercase">
-              TREDNY
-            </h3>
+            <div className="flex justify-start">
+              <BrandLogo size="md" className="!items-start" />
+            </div>
             <p className="text-xs text-white/40 font-light leading-relaxed max-w-sm">
-              An international haute jewelry atelier and modern couture dressing platform. Crafting 18k solid gold creations, GIA-certified emeralds, and bespoke silk silhouettes with AI-curated styling.
+              TREDNY Brand — Your premier online destination for curated fashion, fine jewelry, accessories, and bespoke styling recommendations.
             </p>
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#C5A059]">
               <ShieldCheck className="w-4 h-4" />
-              <span>GIA Certified & Armored Delivery Guarantee</span>
+              <span>Quality Checked & Express Doorstep Delivery</span>
             </div>
           </div>
 
@@ -61,12 +62,12 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <button onClick={onOpenOrderTracker} className="hover:text-white transition cursor-pointer" id="footer-link-tracker">
-                  Track Armored Express Order
+                  Track Express Order
                 </button>
               </li>
               <li>
                 <button onClick={onOpenCareGuide} className="hover:text-white transition cursor-pointer" id="footer-link-care">
-                  Jewelry & Silk Care Guide
+                  Apparel & Accessory Care
                 </button>
               </li>
             </ul>
@@ -75,13 +76,13 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Sourcing & Ethics */}
           <div className="space-y-3 text-xs">
             <h4 className="serif uppercase tracking-[0.2em] text-[#C5A059] text-[11px]">
-              Ethical Sourcing
+              Our Promise
             </h4>
             <ul className="space-y-2 text-white/50 font-light">
-              <li>100% Conflict-Free Diamonds</li>
-              <li>Recycled 18K Solid Gold</li>
-              <li>Mulberry Silk Atelier</li>
-              <li>GIA & IGI Certified Stones</li>
+              <li>Curated Brand Collections</li>
+              <li>Verified Product Quality</li>
+              <li>Express Doorstep Delivery</li>
+              <li>Easy Exchanges & Support</li>
             </ul>
           </div>
 
@@ -125,7 +126,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom Copyright */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-[10px] uppercase tracking-[0.2em] text-white/30 font-light gap-4">
-          <p>© 2026 TREDNY Haute Jewelry & Apparel Atelier. All rights reserved.</p>
+          <p>© 2026 TREDNY Brand & Boutique. All rights reserved.</p>
           <div className="flex gap-6 items-center">
             <span className="hover:text-white/60 cursor-pointer">Privacy Policy</span>
             <span>•</span>

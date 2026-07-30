@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, Star, ShieldCheck, Sparkles, Check, Heart, Truck, Award, Maximize2 } from 'lucide-react';
+import { X, Star, ShieldCheck, Sparkles, Check, Heart, Truck, Award, Maximize2, MessageCircle } from 'lucide-react';
 import { Product, CurrencyConfig } from '../types';
 import { formatPrice } from '../utils/format';
+import { openWhatsAppChat } from '../utils/whatsapp';
 
 interface ProductModalProps {
   product: Product | null;
@@ -171,29 +172,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               {/* Customization Selectors */}
               <div className="space-y-4 pt-4 border-t border-[#222222]">
                 
-                {/* Size Selector */}
-                <div>
-                  <label className="block text-xs font-serif uppercase text-[#d4af37] tracking-wider mb-2">
-                    Select {product.category === 'jewelry' ? 'Size' : 'Apparel Size'}
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {product.sizes.map((sz) => (
-                      <button
-                        key={sz}
-                        onClick={() => setSelectedSize(sz)}
-                        className={`px-3 py-1.5 rounded text-xs transition cursor-pointer ${
-                          selectedSize === sz
-                            ? 'bg-[#d4af37] text-black font-semibold'
-                            : 'bg-[#1a1a1a] text-[#d4d4d4] border border-[#333333] hover:border-[#d4af37]'
-                        }`}
-                        id={`modal-size-${sz}`}
-                      >
-                        {sz}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Optional Custom Note */}
                 <div>
                   <label className="block text-xs font-serif uppercase text-[#d4af37] tracking-wider mb-1">
@@ -251,34 +229,46 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               </div>
 
               {/* Bottom Add to Cart, Buy Now & Wishlist Buttons */}
-              <div className="pt-4 border-t border-[#222222] flex items-center gap-3">
-                <button
-                  onClick={handleAdd}
-                  className="flex-1 py-3 px-3 rounded bg-[#1c1c1c] border border-[#d4af37]/60 hover:bg-[#282828] text-[#d4af37] font-semibold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                  id="modal-add-to-bag-btn"
-                >
-                  <span>Add To Cart</span>
-                </button>
+              <div className="pt-4 border-t border-[#222222] space-y-2">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleAdd}
+                    className="flex-1 py-2.5 px-2 rounded bg-[#1c1c1c] border border-[#d4af37]/60 hover:bg-[#282828] text-[#d4af37] font-semibold text-xs uppercase tracking-wider transition flex items-center justify-center gap-1 cursor-pointer shadow-lg"
+                    id="modal-add-to-bag-btn"
+                  >
+                    <span>Add To Cart</span>
+                  </button>
+
+                  <button
+                    onClick={handleBuyNowClick}
+                    className="flex-1 py-2.5 px-2 rounded bg-gold-gradient hover:brightness-110 text-black font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-1 cursor-pointer shadow-lg"
+                    id="modal-buy-now-btn"
+                  >
+                    <span>Buy Now</span>
+                  </button>
+
+                  <button
+                    onClick={() => onToggleWishlist(product)}
+                    className={`p-2.5 rounded border transition cursor-pointer shrink-0 ${
+                      isWishlisted
+                        ? 'bg-[#d4af37] text-black border-[#d4af37]'
+                        : 'bg-[#1c1c1c] text-[#f8f6f0] border border-[#333333] hover:border-[#d4af37]'
+                    }`}
+                    title="Wishlist"
+                    id="modal-wishlist-toggle-btn"
+                  >
+                    <Heart className="w-4 h-4 fill-current" />
+                  </button>
+                </div>
 
                 <button
-                  onClick={handleBuyNowClick}
-                  className="flex-1 py-3 px-3 rounded bg-gold-gradient hover:brightness-110 text-black font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                  id="modal-buy-now-btn"
+                  type="button"
+                  onClick={() => openWhatsAppChat('7338447753', `Hi TREDNY! I am interested in ordering: ${product.name} (Price: ${formatPrice(product.price, currency)}). Please assist me with WhatsApp ordering.`)}
+                  className="w-full py-2 px-3 rounded bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 border border-emerald-500/40 font-semibold text-xs transition flex items-center justify-center gap-2 cursor-pointer"
+                  id="modal-whatsapp-order-btn"
                 >
-                  <span>Buy Now</span>
-                </button>
-
-                <button
-                  onClick={() => onToggleWishlist(product)}
-                  className={`p-3 rounded border transition cursor-pointer ${
-                    isWishlisted
-                      ? 'bg-[#d4af37] text-black border-[#d4af37]'
-                      : 'bg-[#1c1c1c] text-[#f8f6f0] border border-[#333333] hover:border-[#d4af37]'
-                  }`}
-                  title="Wishlist"
-                  id="modal-wishlist-toggle-btn"
-                >
-                  <Heart className="w-5 h-5 fill-current" />
+                  <MessageCircle className="w-4 h-4 text-emerald-400 fill-current" />
+                  <span>Order / Inquire via WhatsApp (7338447753)</span>
                 </button>
               </div>
 

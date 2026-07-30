@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { X, Trash2, ShoppingBag, ShieldCheck, Tag, ArrowRight, Check } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ShieldCheck, Tag, ArrowRight, Check, MessageCircle } from 'lucide-react';
 import { CartItem, CurrencyConfig } from '../types';
 import { PROMO_CODES } from '../data/products';
 import { formatPrice } from '../utils/format';
+import { openWhatsAppChat, buildCartWhatsAppMessage } from '../utils/whatsapp';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -223,16 +224,31 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
 
               {/* Checkout CTA */}
-              <button
-                onClick={() => {
-                  onProceedToCheckout(discountAmount, isGiftWrapped);
-                }}
-                className="w-full py-3 px-6 rounded bg-[#d4af37] hover:bg-[#c29f2e] text-black font-semibold text-xs uppercase tracking-[0.2em] transition flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                id="cart-checkout-btn"
-              >
-                <span>Proceed To Secure Checkout</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const msg = buildCartWhatsAppMessage(cartItems, formatPrice(finalSubtotal, currency));
+                    openWhatsAppChat('7338447753', msg);
+                  }}
+                  className="w-full py-2.5 px-4 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer shadow-md border border-emerald-400/40"
+                  id="cart-whatsapp-order-btn"
+                >
+                  <MessageCircle className="w-4 h-4 fill-current text-white" />
+                  <span>Direct Order via WhatsApp (7338447753)</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    onProceedToCheckout(discountAmount, isGiftWrapped);
+                  }}
+                  className="w-full py-3 px-6 rounded bg-[#d4af37] hover:bg-[#c29f2e] text-black font-semibold text-xs uppercase tracking-[0.2em] transition flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                  id="cart-checkout-btn"
+                >
+                  <span>Proceed To Secure Checkout</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
 
               <div className="flex items-center justify-center gap-2 text-[10px] text-[#888888]">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#d4af37]" />

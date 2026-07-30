@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Heart, Search, Sparkles, Menu, X, Globe, ShieldCheck, Truck, SlidersHorizontal, MoreVertical, Lock } from 'lucide-react';
+import { ShoppingBag, Heart, Search, Sparkles, Menu, X, Globe, ShieldCheck, Truck, SlidersHorizontal, MoreVertical, Lock, MessageCircle } from 'lucide-react';
 import { CurrencyConfig } from '../types';
 import { CURRENCY_MAP } from '../data/products';
+import { openWhatsAppChat } from '../utils/whatsapp';
+import { BrandLogo } from './BrandLogo';
 
 interface HeaderProps {
   cartCount: number;
@@ -50,9 +52,15 @@ export const Header: React.FC<HeaderProps> = ({
           <Truck className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
           <span className="text-[11px] font-sans tracking-wide">All Kerala & Karnataka delivery available</span>
           <span className="hidden sm:inline text-white/30">|</span>
-          <a href="tel:7338447753" className="text-[11px] font-mono text-white hover:text-[#d4af37] transition underline">
-            Phone: 7338447753
-          </a>
+          <button
+            type="button"
+            onClick={() => openWhatsAppChat('7338447753', 'Hi TREDNY! I would like to inquire or place an order.')}
+            className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1 cursor-pointer font-medium"
+            id="header-top-whatsapp-btn"
+          >
+            <MessageCircle className="w-3 h-3 text-emerald-400 fill-current" />
+            <span>WhatsApp / Phone: 7338447753</span>
+          </button>
         </div>
 
         <div className="hidden md:flex items-center gap-4 text-white/50">
@@ -125,8 +133,8 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </nav>
 
-          {/* Center Brand Logo - Fixed whitespace-nowrap */}
-          <div className="flex-1 md:flex-none text-center flex justify-center">
+          {/* Center Brand Logo with coat hanger monogram */}
+          <div className="flex-1 md:flex-none text-center flex justify-center py-1">
             <button
               onClick={() => {
                 setActiveTab('shop');
@@ -135,12 +143,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="inline-flex flex-col items-center justify-center hover:opacity-90 transition cursor-pointer select-none px-2"
               id="brand-logo-btn"
             >
-              <span className="text-xl sm:text-2xl md:text-3xl font-serif tracking-[0.35em] text-white font-semibold uppercase whitespace-nowrap">
-                TREDNY
-              </span>
-              <span className="block text-[8px] sm:text-[9px] font-sans tracking-[0.4em] text-[#d4af37]/80 font-light mt-0.5 whitespace-nowrap">
-                JEWELRY & FASHIONS
-              </span>
+              <BrandLogo size="md" showSubtitle={true} />
             </button>
           </div>
 

@@ -11,6 +11,7 @@ import { OrderTrackerModal } from './components/OrderTrackerModal';
 import { CareGuideModal } from './components/CareGuideModal';
 import { AdminPanel } from './components/AdminPanel';
 import { Footer } from './components/Footer';
+import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 
 import { PRODUCTS, CURRENCY_MAP, PROMO_CODES } from './data/products';
 import { Product, CartItem, CurrencyConfig, Order } from './types';
@@ -543,6 +544,9 @@ export default function App() {
         onOpenCareGuide={() => setIsCareGuideOpen(true)}
         onAddSubscriber={handleAddSubscriber}
       />
+
+      {/* Floating WhatsApp Quick Order Widget */}
+      <WhatsAppFloatingButton />
 
     </div>
   );
