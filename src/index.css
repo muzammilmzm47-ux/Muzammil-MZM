@@ -8,8 +8,12 @@
   }
 
   h1, h2, h3, .serif {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Bodoni Moda', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   }
+}
+
+.font-fashion {
+  font-family: 'Bodoni Moda', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
 }
 
 .gold-gradient {

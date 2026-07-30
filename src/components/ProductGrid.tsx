@@ -101,11 +101,11 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             <Gem className="w-3.5 h-3.5 text-[#F1D592]" />
             <span>Curated Collection</span>
           </div>
-          <h2 className="text-3xl serif text-white mt-1 font-light">
+          <h2 className="text-3xl font-fashion text-white mt-1 font-light">
             {categoryFilter === 'all'
-              ? 'Jewelry & Fashions Collection'
+              ? 'Fancy & Fashions Collection'
               : categoryFilter === 'jewelry'
-              ? 'Fine Jewelry Collection'
+              ? 'Fancy Collection'
               : 'Haute Fashions Collection'}
           </h2>
           <p className="text-xs text-white/40 font-light mt-1">
@@ -142,7 +142,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             id="filter-category-jewelry"
           >
             <Gem className="w-3.5 h-3.5" />
-            Jewelry
+            Fancy
           </button>
           <button
             onClick={() => {

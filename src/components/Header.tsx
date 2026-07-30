@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="hover:text-white transition cursor-pointer"
             id="header-care-guide-btn"
           >
-            Jewelry & Fabric Care
+            Fancy & Fabric Care
           </button>
         </div>
       </div>
@@ -115,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
               id="nav-fine-jewelry-btn"
             >
-              Jewelry
+              Fancy
             </button>
             <button
               onClick={() => {
@@ -373,7 +373,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="block w-full text-left text-sm uppercase tracking-widest text-[#f8f6f0] hover:text-[#d4af37]"
               id="mobile-nav-jewelry-btn"
             >
-              Jewelry
+              Fancy
             </button>
             <button
               onClick={() => {

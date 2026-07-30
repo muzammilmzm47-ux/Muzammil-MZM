@@ -24,11 +24,9 @@ export const Hero: React.FC<HeroProps> = ({
         <div className="space-y-6">
 
           {/* Title */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl serif font-light tracking-tight text-white leading-[1.12]">
-            TREDNY <br />
-            <span className="italic font-normal gold-gradient">
-              Brand
-            </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-fashion font-light tracking-tight leading-[1.12]">
+            <span className="gold-gradient font-medium tracking-wider">TREDNY</span> <br />
+            <span className="italic font-normal text-white">Brand</span>
           </h1>
 
           {/* Call To Action Buttons */}
@@ -49,7 +47,7 @@ export const Hero: React.FC<HeroProps> = ({
               id="hero-explore-jewelry-btn"
             >
               <Gem className="w-3.5 h-3.5 text-[#C5A059]" />
-              <span>Jewelry</span>
+              <span>Fancy</span>
             </button>
 
             <button

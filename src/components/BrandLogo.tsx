@@ -90,26 +90,24 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       )}
 
       {/* Brand Typography "TREDNY" */}
-      <div className={`${variant === 'horizontal' ? 'text-left' : 'text-center'}`}>
-        <div className="flex items-center justify-center font-serif font-bold uppercase tracking-[0.32em] leading-none">
+      <div className={`${variant === 'horizontal' ? 'text-left' : 'text-center'} whitespace-nowrap`}>
+        <div className="flex items-center justify-center font-fashion font-bold uppercase tracking-[0.25em] leading-none whitespace-nowrap">
           <span
-            className={`${textSizes[size]} ${lightMode ? 'text-[#1a1a1a]' : 'text-white'}`}
+            className={`${textSizes[size]} whitespace-nowrap select-none`}
             style={{
-              backgroundImage: 'linear-gradient(135deg, #FFF5CC 0%, #E6C65C 30%, #C5A059 60%, #9E7A27 85%, #F7E298 100%)',
+              backgroundImage: 'linear-gradient(135deg, #FFF5CC 0%, #F1D592 30%, #C5A059 60%, #9E7A27 85%, #F7E298 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               filter: 'drop-shadow(0px 1px 3px rgba(0,0,0,0.6))',
             }}
           >
-            T R E D N Y
+            TREDNY
           </span>
         </div>
 
         {showSubtitle && (
           <span
-            className={`block font-sans font-medium uppercase mt-1 tracking-[0.45em] ${subSizes[size]} ${
-              lightMode ? 'text-[#8c672b]' : 'text-[#d4af37]'
-            }`}
+            className={`block font-sans font-medium uppercase mt-1 tracking-[0.42em] ${subSizes[size]} whitespace-nowrap text-white opacity-95`}
           >
             BRAND
           </span>
