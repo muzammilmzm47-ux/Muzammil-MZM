@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Heart, Search, Sparkles, Menu, X, Globe, ShieldCheck, Truck, SlidersHorizontal, MoreVertical, Lock, MessageCircle } from 'lucide-react';
+import { ShoppingBag, Heart, Search, Sparkles, Menu, X, Globe, ShieldCheck, Truck, SlidersHorizontal, MoreVertical, Lock, MessageCircle, User } from 'lucide-react';
 import { CurrencyConfig } from '../types';
 import { CURRENCY_MAP } from '../data/products';
 import { openWhatsAppChat } from '../utils/whatsapp';
@@ -14,6 +14,8 @@ interface HeaderProps {
   onOpenWishlist: () => void;
   onOpenOrderTracker: () => void;
   onOpenCareGuide: () => void;
+  onOpenSignIn: () => void;
+  isAdminAuthenticated: boolean;
   currency: CurrencyConfig;
   setCurrency: (currency: CurrencyConfig) => void;
   searchQuery: string;
@@ -32,6 +34,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenWishlist,
   onOpenOrderTracker,
   onOpenCareGuide,
+  onOpenSignIn,
+  isAdminAuthenticated,
   currency,
   setCurrency,
   searchQuery,
@@ -218,6 +222,22 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </button>
 
+            {/* Standard Sign In / Account Button */}
+            <button
+              onClick={onOpenSignIn}
+              className="p-2 text-[#d4d4d4] hover:text-[#d4af37] transition cursor-pointer flex items-center gap-1.5 rounded-md hover:bg-white/5"
+              title={isAdminAuthenticated ? "Administrator Active" : "Sign In to Account"}
+              id="header-signin-btn"
+            >
+              <User className="w-5 h-5 text-[#d4af37]" />
+              <span className="hidden sm:inline text-xs tracking-wider uppercase font-medium">
+                {isAdminAuthenticated ? 'Admin' : 'Sign In'}
+              </span>
+              {isAdminAuthenticated && (
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Admin Session Active" />
+              )}
+            </button>
+
             {/* 3-Dot Options Dropdown */}
             <div className="relative">
               <button
@@ -238,24 +258,33 @@ export const Header: React.FC<HeaderProps> = ({
                   className="absolute right-0 mt-2 w-64 bg-[#121212] border border-gold rounded-lg shadow-2xl py-2 z-50 text-xs text-[#E5E5E5] divide-y divide-white/10"
                   onMouseLeave={() => setIsThreeDotsOpen(false)}
                 >
-                  <div className="p-1">
-                    <button
-                      onClick={() => {
-                        setActiveTab('admin');
-                        setIsThreeDotsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded hover:bg-[#1f1b11] text-[#F1D592] font-semibold text-left transition cursor-pointer"
-                      id="three-dots-admin-btn"
-                    >
-                      <Lock className="w-4 h-4 text-[#C5A059]" />
-                      <div className="flex-1">
-                        <span className="block text-xs">Admin Portal</span>
-                        <span className="block text-[9px] text-white/50 font-normal">Password Protected Gateway</span>
-                      </div>
-                    </button>
-                  </div>
-
                   <div className="p-1 space-y-0.5">
+                    {isAdminAuthenticated ? (
+                      <button
+                        onClick={() => {
+                          setActiveTab('admin');
+                          setIsThreeDotsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded hover:bg-[#1f1b11] text-[#F1D592] text-left transition cursor-pointer font-medium"
+                        id="three-dots-admin-btn"
+                      >
+                        <Lock className="w-4 h-4 text-[#C5A059]" />
+                        <span>Store Manager</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          onOpenSignIn();
+                          setIsThreeDotsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded hover:bg-white/5 text-left transition cursor-pointer"
+                        id="three-dots-signin-btn"
+                      >
+                        <User className="w-4 h-4 text-[#C5A059]" />
+                        <span>Sign In to Account</span>
+                      </button>
+                    )}
+
                     <button
                       onClick={() => {
                         setActiveTab('dressing-room');
@@ -338,20 +367,34 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
           <div className="md:hidden bg-[#111111] border-b border-[#222222] px-4 py-6 space-y-4">
-            <button
-              onClick={() => {
-                setActiveTab('admin');
-                setIsMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center justify-between py-3 px-4 rounded border border-gold bg-[#1A1810] text-[#F1D592] font-semibold text-xs uppercase tracking-widest cursor-pointer"
-              id="mobile-nav-admin-top-btn"
-            >
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-[#C5A059]" />
-                <span>Admin Portal</span>
-              </div>
-              <span className="text-[10px] text-[#C5A059] border border-gold/40 px-1.5 py-0.5 rounded">Protected</span>
-            </button>
+            {isAdminAuthenticated ? (
+              <button
+                onClick={() => {
+                  setActiveTab('admin');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-between py-3 px-4 rounded border border-gold bg-[#1A1810] text-[#F1D592] font-semibold text-xs uppercase tracking-widest cursor-pointer"
+                id="mobile-nav-admin-top-btn"
+              >
+                <div className="flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-[#C5A059]" />
+                  <span>Store Manager</span>
+                </div>
+                <span className="text-[10px] text-emerald-400 font-sans">Active</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  onOpenSignIn();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded border border-white/10 hover:border-gold/50 bg-[#161616] text-white font-medium text-xs uppercase tracking-widest cursor-pointer transition"
+                id="mobile-nav-signin-btn"
+              >
+                <User className="w-4 h-4 text-[#C5A059]" />
+                <span>Sign In / My Account</span>
+              </button>
+            )}
 
             <button
               onClick={() => {
@@ -405,8 +448,19 @@ export const Header: React.FC<HeaderProps> = ({
               <button onClick={() => { onOpenCareGuide(); setIsMobileMenuOpen(false); }} className="hover:text-white cursor-pointer" id="mobile-care-guide-btn">
                 Jewelry Care
               </button>
-              <button onClick={() => { setActiveTab('admin'); setIsMobileMenuOpen(false); }} className="text-[#C5A059] hover:underline font-semibold cursor-pointer" id="mobile-admin-bottom-btn">
-                Admin
+              <button 
+                onClick={() => { 
+                  if (isAdminAuthenticated) {
+                    setActiveTab('admin');
+                  } else {
+                    onOpenSignIn();
+                  }
+                  setIsMobileMenuOpen(false); 
+                }} 
+                className="text-[#C5A059] hover:underline font-semibold cursor-pointer" 
+                id="mobile-signin-bottom-btn"
+              >
+                {isAdminAuthenticated ? 'Admin' : 'Sign In'}
               </button>
             </div>
           </div>

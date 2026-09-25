@@ -85,7 +85,7 @@ export interface Order {
   currency: Currency;
   shippingAddress: ShippingAddress;
   paymentMethod: string;
-  status: 'Order Placed' | 'Insured Quality Audit' | 'Armored Transit' | 'Delivered';
+  status: 'Order Placed' | 'Insured Quality Audit' | 'Armored Transit' | 'Delivered' | 'COD - Pending Dispatch' | 'Paid - Processing';
   trackingNumber: string;
   estimatedDelivery: string;
 }

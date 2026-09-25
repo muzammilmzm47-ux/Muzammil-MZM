@@ -26,6 +26,9 @@ interface AdminPanelProps {
   onUpdateAdminCreds: (email: string, pass: string) => void;
   announcementText: string;
   onUpdateAnnouncementText: (text: string) => void;
+  isAdminAuthenticated?: boolean;
+  onLogout?: () => void;
+  onAuthenticateSuccess?: () => void;
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({
@@ -45,11 +48,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onUpdateAdminCreds,
   announcementText,
   onUpdateAnnouncementText,
+  isAdminAuthenticated,
+  onLogout,
+  onAuthenticateSuccess,
 }) => {
-  // Authentication State
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loginEmail, setLoginEmail] = useState(adminCreds.email);
-  const [loginPass, setLoginPass] = useState(adminCreds.pass);
+  // In-Memory Authentication State
+  const [localAuthenticated, setLocalAuthenticated] = useState(false);
+  const isAuthenticated = isAdminAuthenticated !== undefined ? isAdminAuthenticated : localAuthenticated;
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPass, setLoginPass] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
 
   // Active Admin Tab
@@ -110,19 +117,23 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       loginEmail.trim().toLowerCase() === adminCreds.email.toLowerCase() &&
       loginPass === adminCreds.pass
     ) {
-      setIsAuthenticated(true);
+      setLocalAuthenticated(true);
+      if (onAuthenticateSuccess) onAuthenticateSuccess();
+      setLoginEmail('');
+      setLoginPass('');
       setLoginError(null);
     } else {
-      setLoginError(`Invalid email or password. Default is ${adminCreds.email} / ${adminCreds.pass}`);
+      setLoginError('Invalid administrator credentials. Access denied.');
     }
   };
 
   // Reset Credentials to Factory Default
   const handleResetCredsToDefault = () => {
     onUpdateAdminCreds('admin@tredny.com', 'muzammilshammas313');
-    setLoginEmail('admin@tredny.com');
-    setLoginPass('muzammilshammas313');
-    setLoginError('Credentials reset to default: admin@tredny.com / muzammilshammas313');
+    setLoginEmail('');
+    setLoginPass('');
+    setLoginError(null);
+    setSecurityMsg('Admin credentials restored to initial default.');
   };
 
   // Handle Changing Password and Email Credentials
@@ -197,7 +208,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 type="email"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="admin@tredny.com"
+                placeholder="Enter admin email"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                data-lpignore="true"
+                data-1p-ignore="true"
+                name="tredny_admin_email_field"
                 className="w-full bg-[#1A1A1A] border border-white/10 rounded-sm px-3 py-2.5 text-white focus:outline-none focus:border-[#C5A059]"
                 required
                 id="admin-login-email-input"
@@ -212,7 +230,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 type="password"
                 value={loginPass}
                 onChange={(e) => setLoginPass(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Enter admin password"
+                autoComplete="new-password"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                data-lpignore="true"
+                data-1p-ignore="true"
+                name="tredny_admin_pass_field"
                 className="w-full bg-[#1A1A1A] border border-white/10 rounded-sm px-3 py-2.5 text-white focus:outline-none focus:border-[#C5A059]"
                 required
                 id="admin-login-pass-input"
@@ -230,8 +255,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           </form>
 
           <div className="pt-4 border-t border-white/10 text-center space-y-3">
-            <p className="text-[11px] text-white/40">
-              Active Credentials: <span className="text-white font-mono">{adminCreds.email}</span> / <span className="text-white font-mono">{adminCreds.pass}</span>
+            <p className="text-[10px] text-white/40">
+              Zero-Storage Active: Session will automatically close upon exiting. No credentials saved.
             </p>
             <div className="flex justify-between items-center text-xs">
               <button
@@ -239,7 +264,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 onClick={handleResetCredsToDefault}
                 className="text-[10px] text-[#C5A059] hover:underline cursor-pointer"
               >
-                Reset Credentials to Default
+                Reset to Default Credentials
               </button>
               <button
                 type="button"
@@ -403,15 +428,22 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setIsAuthenticated(false)}
+              onClick={() => {
+                setLocalAuthenticated(false);
+                if (onLogout) onLogout();
+                else onCloseAdmin();
+              }}
               className="px-3 py-2 rounded-sm bg-red-950/60 hover:bg-red-900 border border-red-500/40 text-red-300 transition text-xs font-semibold uppercase tracking-wider cursor-pointer flex items-center gap-1.5"
               id="admin-logout-btn"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>Log Out</span>
+              <span>Log Out & Lock</span>
             </button>
             <button
-              onClick={onCloseAdmin}
+              onClick={() => {
+                if (onLogout) onLogout();
+                else onCloseAdmin();
+              }}
               className="px-4 py-2 rounded-sm border border-gold text-[#F1D592] hover:bg-white hover:text-black transition text-xs font-semibold uppercase tracking-wider cursor-pointer"
               id="admin-exit-btn"
             >
@@ -1146,7 +1178,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   className="px-4 py-2 bg-red-950/40 hover:bg-red-900/60 border border-red-500/30 text-red-300 rounded-sm text-[11px] font-medium transition cursor-pointer"
                   id="security-reset-creds-btn"
                 >
-                  Reset Admin Credentials to Default (admin@tredny.com / muzammilshammas313)
+                  Restore Admin Credentials to Initial Default
                 </button>
               </div>
 

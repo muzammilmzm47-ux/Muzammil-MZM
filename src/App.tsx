@@ -10,6 +10,7 @@ import { CheckoutModal } from './components/CheckoutModal';
 import { OrderTrackerModal } from './components/OrderTrackerModal';
 import { CareGuideModal } from './components/CareGuideModal';
 import { AdminPanel } from './components/AdminPanel';
+import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 
@@ -140,14 +141,28 @@ export default function App() {
     return INITIAL_SUBSCRIBERS;
   });
 
-  // Dynamic Admin Credentials State
-  const [adminCreds, setAdminCreds] = useState<{ email: string; pass: string }>(() => {
-    const saved = localStorage.getItem('tredny_admin_creds');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) { return { email: 'admin@tredny.com', pass: 'muzammilshammas313' }; }
-    }
-    return { email: 'admin@tredny.com', pass: 'muzammilshammas313' };
+  // In-Memory Admin Credentials State (NEVER saved to localStorage or any device)
+  const [adminCreds, setAdminCreds] = useState<{ email: string; pass: string }>({
+    email: 'admin@tredny.com',
+    pass: 'muzammilshammas313',
   });
+
+  // Zero-Storage Device Security: Proactively purge any residual admin tokens/creds from storage
+  useEffect(() => {
+    try {
+      localStorage.removeItem('tredny_admin_creds');
+      localStorage.removeItem('tredny_admin_session');
+      localStorage.removeItem('tredny_admin_auth');
+      sessionStorage.removeItem('tredny_admin_session');
+      sessionStorage.removeItem('tredny_admin_auth');
+    } catch (e) {
+      // Storage access gracefully handled
+    }
+  }, []);
+
+  // In-Memory Admin Authentication State (Resets to false on page refresh/exit)
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // Dynamic Store Banner Announcement State
   const [announcementText, setAnnouncementText] = useState<string>(() => {
@@ -195,7 +210,7 @@ export default function App() {
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [isGiftWrapped, setIsGiftWrapped] = useState(true);
 
-  // Persistence Effects
+  // Persistence Effects (Cart, Wishlist, Catalog, Orders, Promos, Subscribers, Announcements ONLY)
   useEffect(() => {
     localStorage.setItem('tredny_cart', JSON.stringify(cartItems));
   }, [cartItems]);
@@ -219,10 +234,6 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('tredny_subscribers', JSON.stringify(subscribers));
   }, [subscribers]);
-
-  useEffect(() => {
-    localStorage.setItem('tredny_admin_creds', JSON.stringify(adminCreds));
-  }, [adminCreds]);
 
   useEffect(() => {
     localStorage.setItem('tredny_announcement', announcementText);
@@ -377,6 +388,8 @@ export default function App() {
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenOrderTracker={() => setIsTrackerOpen(true)}
         onOpenCareGuide={() => setIsCareGuideOpen(true)}
+        onOpenSignIn={() => setIsAuthModalOpen(true)}
+        isAdminAuthenticated={isAdminAuthenticated}
         currency={currency}
         setCurrency={setCurrency}
         searchQuery={searchQuery}
@@ -447,7 +460,19 @@ export default function App() {
             subscribers={subscribers}
             onAddSubscriber={handleAddSubscriber}
             currency={currency.code}
-            onCloseAdmin={() => setActiveTab('shop')}
+            onCloseAdmin={() => {
+              setIsAdminAuthenticated(false);
+              setActiveTab('shop');
+            }}
+            onLogout={() => {
+              setIsAdminAuthenticated(false);
+              setActiveTab('shop');
+            }}
+            isAdminAuthenticated={isAdminAuthenticated}
+            onAuthenticateSuccess={() => {
+              setIsAdminAuthenticated(true);
+              setActiveTab('admin');
+            }}
             adminCreds={adminCreds}
             onUpdateAdminCreds={(email, pass) => setAdminCreds({ email, pass })}
             announcementText={announcementText}
@@ -535,6 +560,22 @@ export default function App() {
       <CareGuideModal
         isOpen={isCareGuideOpen}
         onClose={() => setIsCareGuideOpen(false)}
+      />
+
+      {/* Zero-Storage Private Authentication Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        adminCreds={adminCreds}
+        isAdminAuthenticated={isAdminAuthenticated}
+        onAdminLoginSuccess={() => {
+          setIsAdminAuthenticated(true);
+          setActiveTab('admin');
+        }}
+        onAdminLogout={() => {
+          setIsAdminAuthenticated(false);
+          setActiveTab('shop');
+        }}
       />
 
       {/* Footer */}
